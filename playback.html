@@ -113,27 +113,42 @@ atOptions = {
 <div class="feed" id="feed"></div>
 
 <script>
+/* ===== BUILD FEED ===== */
+ordered.forEach(v=>{
+  const likes = Math.floor(Math.random()*900)+100;
+  const comments = Math.floor(Math.random()*300)+20;
+  const avatar = `https://i.pravatar.cc/150?u=${v.user}`;
+
+  const d = document.createElement("div");
+  d.className = "item";
+  d.innerHTML = `
+    <video src="${v.src}" muted loop playsinline preload="metadata"></video>
+
+    <div class="sound" onclick="toggleSound(this)">🔇</div>
+
+    <div class="user-box">
+      <img class="avatar" src="${avatar}">
+      <div>@${v.user}</div>
+    </div>
+
+    <div class="actions">
+      <div onclick="like(this)">
+        ❤️
+        <div class="count">${likes}</div>
+      </div>
+      <div onclick="alert('Komentar coming soon')">
+        💬
+        <div class="count">${comments}</div>
+      </div>
+    </div>
+  `;
+  feed.appendChild(d);
+});
+  
 /* ===== STATE ===== */
 const feed = document.getElementById("feed");
 let currentVideo = null;
 let currentIndex = 0;
-
-/* ===== POPUNDER CONTROL (AMAN) ===== */
-let swipeCount = 0;
-let popTriggered = sessionStorage.getItem("popunder_shown") === "1";
-
-function triggerPopunder(){
-  if(popTriggered) return;
-  popTriggered = true;
-  sessionStorage.setItem("popunder_shown","1");
-
-  setTimeout(()=>{
-    const s = document.createElement("script");
-    s.src = "https://beginshello.com/94/8f/38/948f38c54e4a2e531127f3c221f414a7.js";
-    s.async = true;
-    document.body.appendChild(s);
-  },500); // delay dikit, RPM lebih aman
-}
 
 /* ===== LOAD DATA ===== */
 const list = JSON.parse(localStorage.getItem("VIDEO_LIST")) || [];
@@ -255,3 +270,4 @@ _Hasync.push(['Histats.track_hits', '']);
     <img src="//sstatic1.histats.com/0.gif?4992245&101" border="0">
   </a>
 </noscript>
+
