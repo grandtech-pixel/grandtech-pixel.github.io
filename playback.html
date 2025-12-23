@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -96,55 +97,9 @@ video{
 
 <body>
 
-<!-- ===== TOP BANNER ===== -->
-<div id="ad-top">
-<script type="text/javascript">
-atOptions = {
-  'key' : '281ad8525430aef7936dbd51dbb2cc46',
-  'format' : 'iframe',
-  'height' : 50,
-  'width' : 320,
-  'params' : {}
-};
-</script>
-<script src="https://beginshello.com/281ad8525430aef7936dbd51dbb2cc46/invoke.js"></script>
-</div>
-
 <div class="feed" id="feed"></div>
 
 <script>
-/* ===== BUILD FEED ===== */
-ordered.forEach(v=>{
-  const likes = Math.floor(Math.random()*900)+100;
-  const comments = Math.floor(Math.random()*300)+20;
-  const avatar = `https://i.pravatar.cc/150?u=${v.user}`;
-
-  const d = document.createElement("div");
-  d.className = "item";
-  d.innerHTML = `
-    <video src="${v.src}" muted loop playsinline preload="metadata"></video>
-
-    <div class="sound" onclick="toggleSound(this)">🔇</div>
-
-    <div class="user-box">
-      <img class="avatar" src="${avatar}">
-      <div>@${v.user}</div>
-    </div>
-
-    <div class="actions">
-      <div onclick="like(this)">
-        ❤️
-        <div class="count">${likes}</div>
-      </div>
-      <div onclick="alert('Komentar coming soon')">
-        💬
-        <div class="count">${comments}</div>
-      </div>
-    </div>
-  `;
-  feed.appendChild(d);
-});
-  
 /* ===== STATE ===== */
 const feed = document.getElementById("feed");
 let currentVideo = null;
@@ -251,23 +206,15 @@ if(urlVid){
 </body>
 </html>
 
-<!-- ===== HISTATS ===== -->
-<script type="text/javascript">
-var _Hasync= _Hasync|| [];
+<!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
 _Hasync.push(['Histats.start', '1,4992245,4,511,95,18,00000000']);
 _Hasync.push(['Histats.fasi', '1']);
 _Hasync.push(['Histats.track_hits', '']);
 (function() {
-  var hs = document.createElement('script');
-  hs.type = 'text/javascript';
-  hs.async = true;
-  hs.src = ('//s10.histats.com/js15_as.js');
-  (document.head || document.body).appendChild(hs);
-})();
-</script>
-<noscript>
-  <a href="/" target="_blank">
-    <img src="//sstatic1.histats.com/0.gif?4992245&101" border="0">
-  </a>
-</noscript>
-
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4992245&101" alt="" border="0"></a></noscript>
+<!-- Histats.com  END  -->
