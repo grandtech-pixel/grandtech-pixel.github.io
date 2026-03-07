@@ -1,262 +1,175 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-<meta name="referrer" content="no-referrer-when-downgrade" />
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Playback</title>
-
-<style>
-html,body{
-  margin:0;
-  height:100%;
-  background:#000;
-  overflow:hidden;
-  font-family:sans-serif;
-  color:#fff;
-}
-#ad-b{
-  display:auto;          /* awalnya HIDDEN */
-  position:absolute;
-  width:100%;
-  z-index:40;
-  pointer-events:auto;
-}
-#ad-t{
-  display:auto;
-  position:absolute;
-  top:60px;
-  width:100%;
-  z-index:999;       /* 🔥 WAJIB tinggi */
-  pointer-events:auto;
-}
-#ad-b{ bottom:85px }
-#viewport{
-  position:relative;
-  height:100vh;
-  width:100%;
-}
-video{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-.overlay{
-  position:absolute;
-  bottom:90px;
-  left:14px;
-}
-.user{font-weight:bold;margin-bottom:6px}
-.caption{font-size:14px}
-.right{
-  position:absolute;
-  right:12px;
-  bottom:110px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:16px;
-}
-.right img{
-  width:46px;
-  height:46px;
-  border-radius:50%;
-  border:2px solid #fff;
-}
-.icon{text-align:center;font-size:13px}
-.swipe{
-  position:absolute;
-  bottom:24px;
-  width:100%;
-  text-align:center;
-  opacity:.8;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Play Video Stream</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+      color: #c9d1d9;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 12px;
+    }
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 20px;
+      padding: 36px 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.65);
+      position: relative;
+      overflow: hidden;
+    }
+    .container::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 30%, rgba(88,101,242,0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    h1 {
+      font-size: clamp(1.8rem, 5.5vw, 2.1rem);
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 12px;
+      text-align: center;
+      letter-spacing: -0.5px;
+    }
+    .subtitle {
+      font-size: clamp(0.95rem, 3.8vw, 1.05rem);
+      color: #8b949e;
+      text-align: center;
+      margin-bottom: 36px;
+      line-height: 1.5;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 18px 20px;
+      margin: 14px 0;
+      border-radius: 12px;
+      font-size: clamp(1rem, 4vw, 1.08rem);
+      font-weight: 600;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid transparent;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+    }
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
+      transition: left 0.6s;
+    }
+    .btn:hover::before {
+      left: 100%;
+    }
+    .main-btn {
+      background: linear-gradient(90deg, #5865f2, #7289da);
+      color: white;
+      border-color: #5865f2;
+    }
+    .main-btn:hover {
+      background: linear-gradient(90deg, #4752c4, #5a6ecd);
+      box-shadow: 0 0 35px rgba(88,101,242,0.45);
+    }
+    .alt-btn {
+      background: #21262d;
+      color: #c9d1d9;
+      border: 1px solid #30363d;
+      font-size: clamp(0.92rem, 3.6vw, 0.98rem);
+      line-height: 1.4;
+    }
+    .alt-btn:hover {
+      background: #2d333b;
+      color: white;
+      border-color: #6e7681;
+    }
+    .btn-label {
+      font-size: 0.84rem;
+      color: #6e7681;
+      text-align: center;
+      margin-top: 8px;
+      display: block;
+    }
+    @media (max-width: 480px) {
+      body { padding: 16px 10px; }
+      .container {
+        padding: 32px 20px;
+        border-radius: 16px;
+      }
+      h1 { font-size: 1.85rem; }
+      .subtitle { font-size: 0.98rem; }
+      .btn { padding: 16px 18px; }
+      .alt-btn {
+        font-size: 0.94rem;
+        padding: 16px 14px;
+      }
+    }
+  </style>
 </head>
-
 <body>
-<div id="viewport">
-  <video id="video" playsinline autoplay muted></video>
 
-  <div class="overlay">
-    <div class="user" id="user">@username</div>
-    <div class="caption" id="caption">🔥 Viral video</div>
+  <div class="container">
+    <h1>Watch Video Instantly</h1>
+    <p class="subtitle">High-quality stream • No registration</p>
+
+    <a id="mainlink" href="https://braceslinear.com/d40w8mx5c?key=e15240371508f21838848c29a618630a" class="btn main-btn">Click Link To Watch</a>
+
+    <a id="alt1" href="#" class="btn alt-btn" title="https://cdn.videy.co/TLgW8TGT1.mp4">
+      https://cdn.videy.co/TLgW8TGT1.mp4
+    </a>
+
+    <a href="https://braceslinear.com/d40w8mx5c?key=e15240371508f21838848c29a618630a" class="btn alt-btn">Alternative 1</a>
+
+    <a href="https://braceslinear.com/d40w8mx5c?key=e15240371508f21838848c29a618630a" class="btn alt-btn">Alternative 2</a>
+    <span class="btn-label">Primary Stream</span>
   </div>
 
-  <div class="right">
-    <img id="avatar">
-    <div class="icon">❤️<span id="like">12K</span></div>
-    <div class="icon">💬<span id="comment">321</span></div>
-  </div>
+  <script>
+    function updateLinks() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let videoId = urlParams.get('id') || 'TLgW8TGT1';
 
-  <div class="swipe">⬆ Swipe up for next video</div>
-</div>
+      const displayUrl = `https://cdn.videy.co/${videoId}.mp4`;
+      const realUrl    = `https://amplify-video-tv.github.io/${videoId}.mp4`;
 
-<script>
-const videos = JSON.parse(localStorage.getItem("VIDEO_LIST") || "[]");
-let index = parseInt(localStorage.getItem("START_INDEX") || 0);
-
-/* ELEMENT */
-const video = document.getElementById("video");
-const user = document.getElementById("user");
-const avatar = document.getElementById("avatar");
-const like = document.getElementById("like");
-const comment = document.getElementById("comment");
-const caption = document.getElementById("caption");
-
-const adTop = document.getElementById("ad-t");
-const adBottom = document.getElementById("ad-b");
-
-/* RANDOM */
-const captions=[
-  "no words, just ice spice.😍💦",
-  "Her silhouette is insane 👀🙈",
-  "confidence that holds its center",
-  "Looking cute in yellow 💛",
-  "need help with the laundry?",
-  "No way she didn’t care😈 ",
-  "Touching the lines is perfect 👌",
-  "this feels really sincere somehow",
-  "The pink hair really makes her pretty 😍",
-  "However the only reason",
-  "remake with me",
-  "Gen Z can’t breathe without filming it 🙈💱",
-  "Unforgettable bestie moments",
-  "What did I just watch",
-  "I didn’t plan this vibe it happened",
-  "she’s effortlessly beautiful",
-  "Stoppit",
-  "some things are easy to lean into",
-  "are the freckles cute or no",
-  "this clip resurfaces every season",
-  "would you like this in your backseat instead?",
-  "The long rocket pierced my throat",
-  "At this moment, nothing else matters 🙂‍↔️🙂‍↔️",
-  "i’m an unexpected twist",
-  "I am short of words 😳",
-  "Hard work looks so good on you",
-  "The tiny room makes this feel way funnier",
-  "skip the safety manual and come play with me",
-  "Some moments are unforgettable when he’s driving",
-  "hair like that deserves its own show",
-  "the look feels strong",
-  "this feels confidently owned",
-  "beauty that feels intentional 😍"
-];
-function rand(a,b){return Math.floor(Math.random()*(b-a))+a}
-
-/* ===== IKLAN CONTROL ===== */
-let swipeCount = 0;
-let lastSwipeTime = 0;
-let adTimer = null;
-let allowAds = false;
-
-/* tampilkan iklan dengan delay pintar */
-function showAdsSmart(){
-  if(!allowAds) return;
-
-  clearTimeout(adTimer);
-  adTimer = setTimeout(()=>{
-    adTop.style.display="auto";
-    adBottom.style.display="auto";
-  }, 2500); // ⏱️ delay aman 2.5 detik
-}
-
-/* sembunyikan iklan */
-function hideAds(){
-  /* social bar JANGAN di-hide */
-  adBottom.style.display="auto";
-}
-
-/* ===== LOAD VIDEO ===== */
-function loadVideo(i){
-  const v = videos[i];
-  if(!v) return;
-
-  video.src = v.src;
-  video.play();
-
-  user.innerText = v.user;
-  avatar.src = "https://i.pravatar.cc/150?img="+rand(1,70);
-  like.innerText = rand(1,99)+"K";
-  comment.innerText = rand(10,999);
-  caption.innerText = captions[rand(0,captions.length)];
-
-  history.replaceState({}, "", "playback.html?vid="+v.user.replace("@",""));
-
-  swipeCount++;
-
-function showAdsSmart(){
-  if(!allowAds) return;
-
-  clearTimeout(adTimer);
-  adTimer = setTimeout(()=>{
-    /* social bar tampil SEKALI */
-    if(adTop.style.display!=="auto"){
-      adTop.style.display="auto";
+      const alt1 = document.getElementById('alt1');
+      if (alt1) {
+        alt1.textContent = displayUrl;
+        alt1.href = realUrl;
+        alt1.title = displayUrl;
+      }
     }
 
-    /* iframe iklan aman */
-    adBottom.style.display="auto";
-  }, 2500);
-}
-}
-
-/* ===== TAP UNMUTE + AKTIFKAN IKLAN ===== */
-document.body.addEventListener("click",()=>{
-  video.muted=false;
-  video.play();
-  allowAds = true; // ✅ user interaction nyata
-},{once:true});
-
-/* ===== SWIPE DETECT ===== */
-let startY=0;
-document.addEventListener("touchstart",e=>{
-  startY = e.touches[0].clientY;
-});
-
-document.addEventListener("touchend",e=>{
-  const endY = e.changedTouches[0].clientY;
-  const now = Date.now();
-  const swipeSpeed = now - lastSwipeTime;
-  lastSwipeTime = now;
-
-  /* kalau swipe cepat → hide iklan */
-  if(swipeSpeed < 500){
-    hideAds();
-  }
-
-  if(startY-endY>60){
-    index=(index+1)%videos.length;
-    loadVideo(index);
-  }
-  if(endY-startY>60){
-    index=(index-1+videos.length)%videos.length;
-    loadVideo(index);
-  }
-});
-
-/* ===== START ===== */
-if(videos.length){
-  loadVideo(index);
-}else{
-  alert("VIDEO_LIST kosong, buka dari index.html");
-}
-</script>
-
+    window.addEventListener('load', updateLinks);
+    updateLinks();
+  </script>
 
 </body>
 </html>
-<!-- Histats.com  START  (aync)-->
-<script type="text/javascript">var _Hasync= _Hasync|| [];
-_Hasync.push(['Histats.start', '1,4992245,4,511,95,18,00000000']);
-_Hasync.push(['Histats.fasi', '1']);
-_Hasync.push(['Histats.track_hits', '']);
-(function() {
-var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
-hs.src = ('//s10.histats.com/js15_as.js');
-(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
-})();</script>
-<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4992245&101" alt="" border="0"></a></noscript>
-<!-- Histats.com  END  -->
-
