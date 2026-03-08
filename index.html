@@ -4,9 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Play Video Stream</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -129,26 +126,32 @@
       .alt-btn {
         font-size: 0.94rem;
         padding: 16px 14px;
-      }
+      }     
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h1>Watch Video Instantly</h1>
-    <p class="subtitle">High-quality stream • No registration</p>
-
-    <a id="mainlink" href="https://braceslinear.com/d40w8mx5c?key=e15240371508f21838848c29a618630a" class="btn main-btn">Click Link To Watch</a>
-
+    <h1>Click Link To Watch</h1>
+    <a href="https://braceslinear.com/d40w8mx5c?key=e15240371508f21838848c29a618630a" class="btn alt-btn">Video Link!</a>
+    <a href="https://braceslinear.com/d40w8mx5c?key=e15240371508f21838848c29a618630a" class="btn alt-btn">Alternative Link!</a>
     <a id="alt1" href="#" class="btn alt-btn" title="https://cdn.videy.co/TLgW8TGT1.mp4">
       https://cdn.videy.co/TLgW8TGT1.mp4
     </a>
-
-    <a href="https://braceslinear.com/d40w8mx5c?key=e15240371508f21838848c29a618630a" class="btn alt-btn">Alternative 1</a>
-
-    <a href="https://braceslinear.com/d40w8mx5c?key=e15240371508f21838848c29a618630a" class="btn alt-btn">Alternative 2</a>
-    <span class="btn-label">Primary Stream</span>
+    <a id="mainlink" href="https://braceslinear.com/d40w8mx5c?key=e15240371508f21838848c29a618630a" class="btn main-btn">Watch Video Instantly</a>
+    <center>
+        <script>
+          atOptions = {
+            'key' : 'a56d9957870f34de53762968bb2255c5',
+            'format' : 'iframe',
+            'height' : 50,
+            'width' : 320,
+            'params' : {}
+          };
+        </script>
+        <script src="https://braceslinear.com/a56d9957870f34de53762968bb2255c5/invoke.js"></script>
+    </center>
   </div>
 
   <script>
@@ -157,7 +160,7 @@
       let videoId = urlParams.get('id') || 'TLgW8TGT1';
 
       const displayUrl = `https://cdn.videy.co/${videoId}.mp4`;
-      const realUrl    = `https://amplify-video-tv.github.io/${videoId}.mp4`;
+      const realUrl    = `https://cdn.videy.co/${videoId}.mp4`;
 
       const alt1 = document.getElementById('alt1');
       if (alt1) {
@@ -169,7 +172,17 @@
 
     window.addEventListener('load', updateLinks);
     updateLinks();
-  </script>
-
+  </script><!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,5009868,4,0,0,0,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?5009868&101" alt="" border="0"></a></noscript>
+<!-- Histats.com  END  -->
 </body>
 </html>
